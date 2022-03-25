@@ -1,0 +1,55 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /account
+spring:
+  application:
+    name: accounting-service
+  datasource:
+    url: jdbc:postgresql://db:5432/account?CreateDatabaseIfNotExist=true
+    username: admin
+    password: secretp@sswoRd
+#    initialization-mode: always
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect : org.hibernate.dialect.PostgreSQL95Dialect 
+        namingStrategy: org.hibernate.cfg.PhysicalNamingStrategy  
+  jackson:
+    time-zone: UTC
+  cloud:
+    discovery:
+      enabled: true   
+       
+swagger:
+    url: https://accounting-service.uat.restaurantonesolution.com/account
+
+uservice:
+  admin:
+    url: https://administrationservice.uat.restaurantonesolution.com/admin
+     
+#  jackson:
+#    serialization:
+#      write-date-keys-as-timestamps: false
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: https://service-registry.uat.restaurantonesolution.com/eureka
+  instance:
+    hostname: 20.90.253.30
+## Azure Active directory configuration
+#azure:
+#  activedirectory:
+#    tenant-id: xxxxxx-your-tenant-id-xxxxxx
+#    client-id: xxxxxx-your-client-id-xxxxxx
+#    client-secret: xxxxxx-your-client-secret-xxxxxx
+logging:
+  level:
+    '[com.ros.accounting]': DEBUG

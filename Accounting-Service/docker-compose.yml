@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:13.3
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_DB: account
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secretp@sswoRd
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4:5.3
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_ALWAYS: vikas.narsappa@pratian.com
+      PGADMIN_DEFAULT_PASSWORD: mysecret
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    links:
+      - "db:pgsql-server"
+  accounting-service:
+    image: vikaspolicedockerhub/accounting-service
+    container_name: accounting_service
+    ports:
+      - "8084:8092"
+    build:
+      context: ./ROS_ACCOUNTING_SERVICE/Accounting-Service
+      dockerfile: Dockerfile
+    links:
+      - "db:pgsql-server"
+        
+volumes:
+  db-data:
+  pgadmin-data:
+  accounting-service_config:
